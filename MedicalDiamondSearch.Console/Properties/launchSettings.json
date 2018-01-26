@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MedicalDiamondSearch.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "E:\\Downloads\\FER\\MDS\\first.png E:\\Downloads\\FER\\MDS\\second.png"
+    }
+  }
+}
