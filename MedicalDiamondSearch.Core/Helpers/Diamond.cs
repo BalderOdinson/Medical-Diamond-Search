@@ -16,5 +16,10 @@ namespace MedicalDiamondSearch.Core.Helpers
         public PixelBlock CenterBlock { get; }
         public List<PixelBlock> Blocks { get; protected set; }
         public bool IsCenterBlock(PixelBlock block) => CenterBlock.Equals(block);
+
+        public override string ToString()
+        {
+            return $"Ref: {ReferentBlock}, Center: {CenterBlock}";
+        }
     }
 }

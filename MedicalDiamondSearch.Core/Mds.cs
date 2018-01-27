@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -18,13 +19,22 @@ namespace MedicalDiamondSearch.Core
         public static IDictionary<Point, Vector> CalculateVectors(Image referentImage, Image currentImage)
         {
             _treshold = MedicalDiamondSearchSettings.InitialTreshold;
-            return referentImage.Blocks.ToDictionary(block => block.Key, block => CalculateVector(block.Value, block.Value, currentImage));
+            ConcurrentDictionary<Point, Vector> dictionary = new ConcurrentDictionary<Point, Vector>();
+            Parallel.ForEach(referentImage.Blocks, new ParallelOptions { MaxDegreeOfParallelism = MedicalDiamondSearchSettings.NumberOfThreads }, (block) =>
+              {
+                  dictionary.GetOrAdd(block.Key, CalculateVector(block.Value, currentImage.Blocks[block.Key], currentImage));
+              });
+            return dictionary;
         }
 
         private static Vector CalculateVector(PixelBlock referentBlock, PixelBlock centerBlock, Image image)
         {
             var diamond = new LargeDiamond(referentBlock, centerBlock, image);
             var mins = diamond.GetMinimums();
+
+            if (double.IsNaN(mins.Treshold))
+                return new Vector(0, 0);
+
             if (mins.Treshold > _treshold)
             {
                 if (diamond.IsCenterBlock(mins.Minimum))
@@ -48,7 +58,7 @@ namespace MedicalDiamondSearch.Core
 
             var firstAddValue =
                 mins.Minimum.FindFlippedAndAddToVectorDictionary(centerBlock, referentBlock, image, dict);
-            if(firstAddValue.HasValue) list.Add(firstAddValue.Value);
+            if (firstAddValue.HasValue) list.Add(firstAddValue.Value);
 
             var secondAddValue = mins.SecondMinimum.FindFlippedAndAddToVectorDictionary(centerBlock, referentBlock, image, dict);
             if (secondAddValue.HasValue) list.Add(secondAddValue.Value);
@@ -57,7 +67,7 @@ namespace MedicalDiamondSearch.Core
             for (int i = 0; i < 3; i++)
             {
                 mins = list.GetMinimums(referentBlock);
-                if(mins.Treshold > _treshold)
+                if (mins.Treshold > _treshold)
                     return new Vector(referentBlock.Position, mins.Minimum.Position);
                 list = new List<PixelBlock>
                 { mins.Minimum, mins.SecondMinimum };

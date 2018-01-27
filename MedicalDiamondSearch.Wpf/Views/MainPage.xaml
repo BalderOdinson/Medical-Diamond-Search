@@ -1,0 +1,68 @@
+﻿<Page x:Class="MedicalDiamondSearch.Wpf.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MedicalDiamondSearch.Wpf.Views"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="MainPage"
+      xmlns:converters="clr-namespace:MedicalDiamondSearch.Wpf.Converters">
+
+    <Page.Resources>
+        <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
+        <converters:InvertedVisibilityConverter x:Key="InvertedVisibilityConverter"/>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+    </Page.Resources>
+
+    <Grid IsHitTestVisible="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}, Mode=TwoWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center" >
+            <Image Source="../Assets/logo.png" Width="60" />
+            <TextBlock Margin="8,0,0,0" Text="Medical Diamond Search" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40" />
+        </StackPanel>
+        <StackPanel Margin="16,32,16,16" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox x:Name="ReferenceFrameTextBox" Text="{Binding ReferenceFrame, Mode=TwoWay}" VerticalContentAlignment="Center"  Width="400" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button x:Name="ReferenceFrameButton" Height="40" Width="40" BorderBrush="#FF999999" BorderThickness="0,1,1,1" Background="White"  Click="ReferenceFrameButton_OnClick" >
+                <Image Source="../Assets/folder.png" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Margin="-6,-2,-6,-2" />
+            </Button>
+        </StackPanel>
+        <StackPanel Margin="16,16,16,16" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox x:Name="CurrentFrameTextBox" Text="{Binding CurrentFrame, Mode=TwoWay}" VerticalContentAlignment="Center"  Width="400" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button x:Name="CurrentFrameButton" Height="40" Width="40" BorderBrush="#FF999999" BorderThickness="0,1,1,1" Background="White"  Click="CurrentFrameButton_OnClick">
+                <Image Source="../Assets/folder.png" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Margin="-6,-2,-6,-2" />
+            </Button>
+        </StackPanel>
+        <StackPanel Margin="16,8,16,16" Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock  Text="Block size" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
+            <ComboBox x:Name="BlockSizeComboBox" SelectedIndex="{Binding SelectedBlockSize, Mode=TwoWay}" Height="40" Width="440" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <StackPanel Margin="16,8,16,16" Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock  Text="Search parameter p" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
+            <Slider Ticks="7" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="1" HorizontalAlignment="Center" Value="{Binding ParameterP, Mode=TwoWay}" Foreground="#FF999999"   Width="440"  Minimum="2" Maximum="10" TickFrequency="5" TickPlacement="BottomRight" />
+        </StackPanel>
+        <StackPanel Margin="16,8,16,16" Grid.Row="5" Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock  Text="Number of threads" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
+            <Slider Ticks="2,4,8,16,32" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="1" HorizontalAlignment="Center" Value="{Binding NumberOfThreads, Mode=TwoWay}" Foreground="#FF999999" Width="440" Minimum="1" Maximum="32" TickFrequency="4" TickPlacement="BottomRight"/>
+        </StackPanel>
+        <StackPanel Margin="16,8,16,16" Grid.Row="6" Orientation="Vertical" HorizontalAlignment="Center" Visibility="{Binding IsBusy, Converter={StaticResource VisibilityConverter}}">
+            <fa:ImageAwesome Foreground="#FF297ACC" Width="32" Height="32" Icon="CircleOutlineNotch" Spin="True"/>
+            <TextBlock  Text="{Binding State}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
+        </StackPanel>
+        <Button HorizontalAlignment="Center"  BorderBrush="#FF999999" Background="#FF297ACC" Grid.Row="6" Visibility="{Binding IsBusy, Converter={StaticResource InvertedVisibilityConverter}, Mode=TwoWay}" Command="{Binding CalculateCommand, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="8">
+                <TextBlock Foreground="White"  Text="Calculate" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"/>
+                <Image Margin="8,0,0,0" Source="../Assets/photo.png" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</Page>

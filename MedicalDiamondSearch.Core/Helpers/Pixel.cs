@@ -31,5 +31,10 @@ namespace MedicalDiamondSearch.Core.Helpers
         {
             return Position.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"({Position.X},{Position.Y}) RGB({Color.R},{Color.G},{Color.B}))";
+        }
     }
 }

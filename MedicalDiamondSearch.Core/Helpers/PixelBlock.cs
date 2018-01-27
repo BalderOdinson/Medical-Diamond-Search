@@ -19,7 +19,11 @@ namespace MedicalDiamondSearch.Core.Helpers
             _pixels = pixels.ToList();
         }
 
-        public double BlockDistortion(PixelBlock block) => Pixels.Select((p, i) => new { p, i }).Sum(pi => pi.p - block._pixels[pi.i]) / Pixels.Count;
+        public double BlockDistortion(PixelBlock block) => Pixels.Select((p, i) => new { p, i }).Sum(pi =>
+        {
+            var diff = pi.p - block._pixels[pi.i];
+            return diff * diff;
+        }) / Pixels.Count;
 
         public Vector GetVector(PixelBlock block) => new Vector(Position, block.Position);
 
@@ -33,6 +37,11 @@ namespace MedicalDiamondSearch.Core.Helpers
         public override int GetHashCode()
         {
             return Position.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"({Position.X},{Position.Y})";
         }
     }
 }
