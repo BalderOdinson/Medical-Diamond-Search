@@ -16,8 +16,9 @@
         <converters:VisibilityConverter x:Key="VisibilityConverter"/>
     </Page.Resources>
 
-    <Grid IsHitTestVisible="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}, Mode=TwoWay}">
+    <Grid VerticalAlignment="Center" IsHitTestVisible="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}, Mode=TwoWay}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -44,21 +45,25 @@
         </StackPanel>
         <StackPanel Margin="16,8,16,16" Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center">
             <TextBlock  Text="Block size" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
-            <ComboBox x:Name="BlockSizeComboBox" SelectedIndex="{Binding SelectedBlockSize, Mode=TwoWay}" Height="40" Width="440" HorizontalAlignment="Left"/>
+            <ComboBox x:Name="BlockSizeComboBox" SelectedIndex="{Binding SelectedBlockSize, Mode=TwoWay}" Height="40" Width="440" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
         </StackPanel>
         <StackPanel Margin="16,8,16,16" Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock  Text="Select motion estimation algorithm" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
+            <ComboBox x:Name="AlgorithmComboBox" SelectedIndex="{Binding SelectedAlgorithm, Mode=TwoWay}" Height="40" Width="440" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Margin="16,8,16,16" Grid.Row="5" Orientation="Vertical" HorizontalAlignment="Center">
             <TextBlock  Text="Search parameter p" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
             <Slider Ticks="7" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="1" HorizontalAlignment="Center" Value="{Binding ParameterP, Mode=TwoWay}" Foreground="#FF999999"   Width="440"  Minimum="2" Maximum="10" TickFrequency="5" TickPlacement="BottomRight" />
         </StackPanel>
-        <StackPanel Margin="16,8,16,16" Grid.Row="5" Orientation="Vertical" HorizontalAlignment="Center">
+        <StackPanel Margin="16,8,16,16" Grid.Row="6" Orientation="Vertical" HorizontalAlignment="Center">
             <TextBlock  Text="Number of threads" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
             <Slider Ticks="2,4,8,16,32" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="1" HorizontalAlignment="Center" Value="{Binding NumberOfThreads, Mode=TwoWay}" Foreground="#FF999999" Width="440" Minimum="1" Maximum="32" TickFrequency="4" TickPlacement="BottomRight"/>
         </StackPanel>
-        <StackPanel Margin="16,8,16,16" Grid.Row="6" Orientation="Vertical" HorizontalAlignment="Center" Visibility="{Binding IsBusy, Converter={StaticResource VisibilityConverter}}">
+        <StackPanel Margin="16,8,16,16" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Visibility="{Binding IsBusy, Converter={StaticResource VisibilityConverter}}">
             <fa:ImageAwesome Foreground="#FF297ACC" Width="32" Height="32" Icon="CircleOutlineNotch" Spin="True"/>
             <TextBlock  Text="{Binding State}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF7B7B7B" FontSize="16"/>
         </StackPanel>
-        <Button HorizontalAlignment="Center"  BorderBrush="#FF999999" Background="#FF297ACC" Grid.Row="6" Visibility="{Binding IsBusy, Converter={StaticResource InvertedVisibilityConverter}, Mode=TwoWay}" Command="{Binding CalculateCommand, Mode=OneWay}">
+        <Button HorizontalAlignment="Center"  BorderBrush="#FF999999" Background="#FF297ACC" Grid.Row="7" Visibility="{Binding IsBusy, Converter={StaticResource InvertedVisibilityConverter}, Mode=TwoWay}" Command="{Binding CalculateCommand, Mode=OneWay}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="8">
                 <TextBlock Foreground="White"  Text="Calculate" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"/>
                 <Image Margin="8,0,0,0" Source="../Assets/photo.png" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />

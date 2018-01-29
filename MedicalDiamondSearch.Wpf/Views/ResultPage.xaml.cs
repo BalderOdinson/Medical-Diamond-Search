@@ -29,5 +29,10 @@ namespace MedicalDiamondSearch.Wpf.Views
             ResultViewModel = new ResultViewModel();
             DataContext = ResultViewModel;
         }
+
+        private void OverflowButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            VectorPopup.IsOpen = !VectorPopup.IsOpen;
+        }
     }
 }

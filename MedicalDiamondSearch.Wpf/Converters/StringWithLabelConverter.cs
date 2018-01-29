@@ -9,6 +9,8 @@ namespace MedicalDiamondSearch.Wpf.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(parameter is string stringParameter)) return null;
+            if(value is decimal decimalValue)
+                return stringParameter + ": " + decimalValue.ToString("P");
             return stringParameter + ": " + value;
         }
 

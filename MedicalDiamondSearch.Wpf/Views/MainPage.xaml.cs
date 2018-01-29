@@ -28,6 +28,7 @@ namespace MedicalDiamondSearch.Wpf.Views
             this.InitializeComponent();
             DataContext = MainViewModel;
             BlockSizeComboBox.ItemsSource = new List<string> { "4x4", "8x8", "16x16", "32x32", "64x64" };
+            AlgorithmComboBox.ItemsSource = new List<string> { "Medical Diamond Search", "Diamond Search" };
         }
 
         public MainViewModel MainViewModel { get; set; }

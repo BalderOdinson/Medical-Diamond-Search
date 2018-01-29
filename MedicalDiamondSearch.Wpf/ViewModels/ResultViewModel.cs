@@ -13,6 +13,8 @@ namespace MedicalDiamondSearch.Wpf.ViewModels
         private string _timeElapsed;
         private decimal _error;
         private ObservableCollection<string> _vectors;
+        private ImageSource _motionFrame;
+        private decimal _motionError;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -53,6 +55,17 @@ namespace MedicalDiamondSearch.Wpf.ViewModels
             }
         }
 
+        public ImageSource MotionFrame
+        {
+            get => _motionFrame;
+            set
+            {
+                if (Equals(value, _motionFrame)) return;
+                _motionFrame = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string TimeElapsed
         {
             get => _timeElapsed;
@@ -71,6 +84,16 @@ namespace MedicalDiamondSearch.Wpf.ViewModels
             {
                 if (value == _error) return;
                 _error = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal MotionError
+        {
+            get => _motionError;
+            set {
+                if (value == _motionError) return;
+                _motionError = value;
                 OnPropertyChanged();
             }
         }

@@ -12,38 +12,55 @@
     <Page.Resources>
         <converters:StringWithLabelConverter x:Key="StringWithLabelConverter"/>
     </Page.Resources>
-    <ScrollViewer>
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Vertical" Margin="16">
-                <Image Source="{Binding RefrenceFrame, Mode=TwoWay}"/>
-                <TextBlock Text="Reference frame"/>
-            </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="16">
+                    <Image Source="{Binding RefrenceFrame, Mode=TwoWay}"/>
+                    <TextBlock Text="Reference frame"/>
+                </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="16">
-                <Image Source="{Binding CurrentFrame, Mode=TwoWay}"/>
-                <TextBlock Text="Current frame"/>
-            </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="16">
+                    <Image Source="{Binding CurrentFrame, Mode=TwoWay}"/>
+                    <TextBlock Text="Current frame"/>
+                </StackPanel>
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Orientation="Vertical" Margin="16">
-                <Image Source="{Binding ResultFrame, Mode=TwoWay}"/>
-                <TextBlock Text="Output - calculated from estimated vector"/>
-            </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Orientation="Vertical" Margin="16">
+                    <Image Source="{Binding MotionFrame, Mode=TwoWay}"/>
+                    <TextBlock Text="Motion - calculated from estimated vector"/>
+                </StackPanel>
 
-            <StackPanel HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" Orientation="Vertical" Margin="16">
-                <TextBlock Text="{Binding TimeElapsed, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Time elapsed', Mode=TwoWay}"/>
-                <TextBlock Text="{Binding Error, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Relative error', Mode=TwoWay}"/>
-                <TextBlock Text="Changed vectors"/>
-                <ListView ItemsSource="{Binding Vectors}" SelectiveScrollingGrid.SelectiveScrollingOrientation="Both"/>
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+                <StackPanel HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" Orientation="Vertical" Margin="16">
+                    <Image Source="{Binding ResultFrame, Mode=TwoWay}"/>
+                    <TextBlock Text="Output - calculated from estimated vector"/>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+        <Border Grid.Row="1" BorderThickness="0,2,0,0" BorderBrush="Black">
+            <DockPanel Margin="8" >
+                <TextBlock DockPanel.Dock="Left" Text="{Binding TimeElapsed, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Time elapsed', Mode=TwoWay}"/>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding MotionError, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Relative motion error', Mode=TwoWay}" Margin="8,0,0,0"/>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding Error, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Relative output error', Mode=TwoWay}" Margin="8,0,0,0"/>
+                <Button x:Name="OverflowButton" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Click="OverflowButton_OnClick">
+                    <Image Source="../Assets/books.png" Height="20" Width="20"/>
+                </Button>
+                <Popup x:Name="VectorPopup" StaysOpen="False" IsOpen="False" AllowsTransparency="True" PlacementTarget="{Binding ElementName=OverflowButton}" Placement="Top">
+                    <ListView ItemsSource="{Binding Vectors}" SelectiveScrollingGrid.SelectiveScrollingOrientation="Both"/>
+                </Popup>
+            </DockPanel>
+        </Border>
+    </Grid>
 </Page>
