@@ -31,7 +31,7 @@ namespace MedicalDiamondSearch.Console
             MedicalDiamondSearchSettings.InitialTreshold = double.Parse(args[4]);
             MedicalDiamondSearchSettings.NumberOfThreads = int.Parse(args[5]);
 
-            var stopwatch = Stopwatch.StartNew();
+            var totalStopwatch = Stopwatch.StartNew();
 
             System.Console.WriteLine("Loading images...");
 
@@ -50,12 +50,16 @@ namespace MedicalDiamondSearch.Console
 
 
             System.Console.WriteLine("Executing Medical Diamond Search...");
+
+            var stopwatch = Stopwatch.StartNew();
             result = Mds.CalculateVectors(rImage, cImage);
+            stopwatch.Stop();
 
             System.Console.WriteLine("Calculating output image...");
             var errorCount = 0;
             foreach (var vector in result)
             {
+                //Counts in only changed blocks.
                 if (vector.Value.X != 0 || vector.Value.Y != 0)
                 {
                     System.Console.WriteLine(
@@ -86,9 +90,10 @@ namespace MedicalDiamondSearch.Console
             System.Console.WriteLine("Calculating relative error...");
             var error = refrentImage.Compare(currentImage);
 
-            stopwatch.Stop();
+            totalStopwatch.Stop();
 
             System.Console.WriteLine($"Time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds");
+            System.Console.WriteLine($"Total time elapsed: {totalStopwatch.Elapsed.TotalSeconds} seconds");
             System.Console.WriteLine($"Motion relative error: {motionError.ToString("P")}");
             System.Console.WriteLine($"Output relative error: {error.ToString("P")}");
         }

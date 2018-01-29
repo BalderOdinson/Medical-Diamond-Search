@@ -7,6 +7,9 @@ using MedicalDiamondSearch.Core.Settings;
 
 namespace MedicalDiamondSearch.Core.Helpers
 {
+    /// <summary>
+    /// Represents image. Contains pixels of image(location and rgb component).
+    /// </summary>
     public class Image
     {
         public int Width { get; }
@@ -23,6 +26,9 @@ namespace MedicalDiamondSearch.Core.Helpers
         public IDictionary<Point,Pixel> Pixels { get; }
         public IDictionary<Point,PixelBlock> Blocks { get; }
 
+        /// <summary>
+        /// Divides image into blocks.
+        /// </summary>
         public void GenerateBlocks()
         {
             var pixselsToAdd = new List<Pixel>();

@@ -13,6 +13,11 @@ namespace MedicalDiamondSearch.Wpf.Extensions
 {
     public static class BitmapExtensions
     {
+        /// <summary>
+        /// Gets pixels from image. Used unsafe context and parallel.for for best performance.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
         public static IEnumerable<Pixel> GetPixels(this Bitmap bitmap)
         {
             Pixel[] result = null;
@@ -43,6 +48,12 @@ namespace MedicalDiamondSearch.Wpf.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Compares two images pixel by pixel.
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
         public static decimal Compare(this Bitmap first, Bitmap second)
         {
             var diff = 0;

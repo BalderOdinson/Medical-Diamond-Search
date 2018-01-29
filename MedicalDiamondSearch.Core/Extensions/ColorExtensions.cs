@@ -7,6 +7,12 @@ namespace MedicalDiamondSearch.Core.Extensions
 {
     public static class ColorExtensions
     {
+        /// <summary>
+        /// Compares colors using Cie1976 algorithm
+        /// </summary>
+        /// <param name="color1"></param>
+        /// <param name="color2"></param>
+        /// <returns></returns>
         public static double Cie1976Compare(this Color color1, Color color2)
         {
             var a = color1.ConvertToXyz().ConvertToLab();
@@ -15,11 +21,22 @@ namespace MedicalDiamondSearch.Core.Extensions
             return Math.Sqrt(differences);
         }
 
+        /// <summary>
+        /// Square difference
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private static double Distance(double a, double b)
         {
             return (a - b) * (a - b);
         }
 
+        /// <summary>
+        /// Converts Rgb color to Xyz
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static XyzColor ConvertToXyz(this Color color)
         {
             var r = PivotRgb(color.R / 255.0);
@@ -33,6 +50,11 @@ namespace MedicalDiamondSearch.Core.Extensions
             return new XyzColor(x, y, z);
         }
 
+        /// <summary>
+        /// Converts Xyz to La*b*
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static LabColor ConvertToLab(this XyzColor color)
         {
             var x = PivotXyz(color.X / 95.047);

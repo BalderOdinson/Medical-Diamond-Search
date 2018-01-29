@@ -195,7 +195,7 @@ namespace MedicalDiamondSearch.Wpf.ViewModels
             State = "Loading images...";
             await Task.Run(async () =>
             {
-                var stopwatch = Stopwatch.StartNew();
+                var totalStopwatch = Stopwatch.StartNew();
                 var refrentImage = new Bitmap(ReferenceFrame);
                 var currentImage = new Bitmap(CurrentFrame);
                 var resultImage = new Bitmap(refrentImage.Width, refrentImage.Height, PixelFormat.Format32bppRgb);
@@ -211,21 +211,27 @@ namespace MedicalDiamondSearch.Wpf.ViewModels
 
                 IDictionary<Point, Vector> result = null;
 
+                Stopwatch stopwatch = null;
                 resultPage.ResultViewModel.Vectors = new ObservableCollection<string>();
                 if (SelectedAlgorithm == 0)
                 {
                     Application.Current.Dispatcher.Invoke(() => State = "Executing Medical Diamond Search...");
+                    stopwatch = Stopwatch.StartNew();
                     result = Mds.CalculateVectors(rImage, cImage);
+                    stopwatch.Stop();
                 }
                 else
                 {
                     Application.Current.Dispatcher.Invoke(() => State = "Executing Diamond Search...");
+                    stopwatch = Stopwatch.StartNew();
                     result = Ds.CalculateVectors(rImage, cImage);
+                    stopwatch.Stop();
                 }
                 Application.Current.Dispatcher.Invoke(() => State = "Calculating output image...");
                 var errorCount = 0;
                 foreach (var vector in result)
                 {
+                    //Counts in only changed blocks.
                     if (vector.Value.X != 0 || vector.Value.Y != 0)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -259,13 +265,14 @@ namespace MedicalDiamondSearch.Wpf.ViewModels
                 Application.Current.Dispatcher.Invoke(() => State = "Calculating relative error...");
                 var error = refrentImage.Compare(currentImage);
 
-                stopwatch.Stop();
+                totalStopwatch.Stop();
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     resultPage.ResultViewModel.CurrentFrame = new BitmapImage(new Uri(CurrentFrame));
                     resultPage.ResultViewModel.RefrenceFrame = new BitmapImage(new Uri(ReferenceFrame));
                     resultPage.ResultViewModel.MotionFrame = new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), output)));
                     resultPage.ResultViewModel.ResultFrame = new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), output1)));
+                    resultPage.ResultViewModel.TotalTimeElapsed = totalStopwatch.Elapsed.TotalSeconds + " seconds";
                     resultPage.ResultViewModel.TimeElapsed = stopwatch.Elapsed.TotalSeconds + " seconds";
                     resultPage.ResultViewModel.Error = error;
                     resultPage.ResultViewModel.MotionError = motionError;

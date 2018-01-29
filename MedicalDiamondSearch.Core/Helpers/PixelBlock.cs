@@ -19,12 +19,22 @@ namespace MedicalDiamondSearch.Core.Helpers
             _pixels = pixels.ToList();
         }
 
+        /// <summary>
+        /// Cots function for calculating mean squared error.
+        /// </summary>
+        /// <param name="block"></param>
+        /// <returns></returns>
         public double BlockDistortion(PixelBlock block) => Pixels.Select((p, i) => new { p, i }).Sum(pi =>
         {
             var diff = pi.p - block._pixels[pi.i];
             return diff * diff;
         }) / Pixels.Count;
 
+        /// <summary>
+        /// Calculates vector between two blocks.
+        /// </summary>
+        /// <param name="block"></param>
+        /// <returns></returns>
         public Vector GetVector(PixelBlock block) => new Vector(Position, block.Position);
 
         public override bool Equals(object obj)

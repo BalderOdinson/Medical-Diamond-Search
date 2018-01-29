@@ -12,10 +12,19 @@ using MedicalDiamondSearch.Core.Settings;
 
 namespace MedicalDiamondSearch.Core
 {
+    /// <summary>
+    /// Medical DIamond Search
+    /// </summary>
     public class Mds
     {
         private static double _treshold;
 
+        /// <summary>
+        /// Executes Medical Diamond Search Algorithm for each block in image.
+        /// </summary>
+        /// <param name="referentImage"></param>
+        /// <param name="currentImage"></param>
+        /// <returns></returns>
         public static IDictionary<Point, Vector> CalculateVectors(Image referentImage, Image currentImage)
         {
             _treshold = MedicalDiamondSearchSettings.InitialTreshold;
@@ -27,13 +36,21 @@ namespace MedicalDiamondSearch.Core
             return dictionary;
         }
 
+        /// <summary>
+        /// Medical Diamond Search Algorithm 
+        /// </summary>
+        /// <param name="referentBlock"></param>
+        /// <param name="centerBlock"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
         private static Vector CalculateVector(PixelBlock referentBlock, PixelBlock centerBlock, Image image)
         {
             var diamond = new LargeDiamond(referentBlock, centerBlock, image);
             var mins = diamond.GetMinimums();
 
+            //If first and second minimum are same as referent block return first of them.
             if (double.IsNaN(mins.Treshold))
-                return new Vector(0, 0);
+                return new Vector(referentBlock.Position, mins.Minimum.Position);
 
             if (mins.Treshold > _treshold)
             {
@@ -52,6 +69,7 @@ namespace MedicalDiamondSearch.Core
                 }
             }
 
+            #region Get flipped position of minimums
             var dict = new Dictionary<PixelBlock, Vector>();
             var list = new List<PixelBlock>
             { mins.Minimum, mins.SecondMinimum };
@@ -62,6 +80,7 @@ namespace MedicalDiamondSearch.Core
 
             var secondAddValue = mins.SecondMinimum.FindFlippedAndAddToVectorDictionary(centerBlock, referentBlock, image, dict);
             if (secondAddValue.HasValue) list.Add(secondAddValue.Value);
+            #endregion
 
 
             for (int i = 0; i < 3; i++)

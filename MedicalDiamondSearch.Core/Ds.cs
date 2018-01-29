@@ -10,13 +10,19 @@ using MedicalDiamondSearch.Core.Settings;
 
 namespace MedicalDiamondSearch.Core
 {
+    /// <summary>
+    /// Diamond search
+    /// </summary>
     public class Ds
     {
-        private static double _treshold;
-
+        /// <summary>
+        /// Executes Diamond Search Algorithm for each block in image.
+        /// </summary>
+        /// <param name="referentImage"></param>
+        /// <param name="currentImage"></param>
+        /// <returns></returns>
         public static IDictionary<Point, Vector> CalculateVectors(Image referentImage, Image currentImage)
         {
-            _treshold = MedicalDiamondSearchSettings.InitialTreshold;
             ConcurrentDictionary<Point, Vector> dictionary = new ConcurrentDictionary<Point, Vector>();
             Parallel.ForEach(referentImage.Blocks, new ParallelOptions { MaxDegreeOfParallelism = MedicalDiamondSearchSettings.NumberOfThreads }, (block) =>
             {
@@ -25,6 +31,13 @@ namespace MedicalDiamondSearch.Core
             return dictionary;
         }
 
+        /// <summary>
+        /// Diamond Search Algorithm.
+        /// </summary>
+        /// <param name="referentBlock"></param>
+        /// <param name="centerBlock"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
         private static Vector CalculateVector(PixelBlock referentBlock, PixelBlock centerBlock, Image image)
         {
             while (true)

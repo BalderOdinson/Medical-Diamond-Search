@@ -52,6 +52,7 @@
         <Border Grid.Row="1" BorderThickness="0,2,0,0" BorderBrush="Black">
             <DockPanel Margin="8" >
                 <TextBlock DockPanel.Dock="Left" Text="{Binding TimeElapsed, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Time elapsed', Mode=TwoWay}"/>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding TotalTimeElapsed, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Total time elapsed', Mode=TwoWay}" Margin="8,0,0,0"/>
                 <TextBlock DockPanel.Dock="Left" Text="{Binding MotionError, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Relative motion error', Mode=TwoWay}" Margin="8,0,0,0"/>
                 <TextBlock DockPanel.Dock="Left" Text="{Binding Error, Converter={StaticResource StringWithLabelConverter}, ConverterParameter='Relative output error', Mode=TwoWay}" Margin="8,0,0,0"/>
                 <Button x:Name="OverflowButton" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Click="OverflowButton_OnClick">

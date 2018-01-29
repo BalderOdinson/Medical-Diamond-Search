@@ -5,6 +5,16 @@ namespace MedicalDiamondSearch.Core.Extensions
 {
     public static class SearchWindow
     {
+        /// <summary>
+        /// Calculates if given block is inside search window(according to given center block) and if it is inside image.
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="pixelBlock"></param>
+        /// <param name="parametar"></param>
+        /// <param name="blockSize"></param>
+        /// <param name="pictureWidth"></param>
+        /// <param name="pictureHeight"></param>
+        /// <returns></returns>
         public static bool IsInSearchWindow(this PixelBlock center, PixelBlock pixelBlock, int parametar, int blockSize, int pictureWidth, int pictureHeight)
         {
             return pixelBlock.Position.X >= 0 &&
@@ -17,6 +27,16 @@ namespace MedicalDiamondSearch.Core.Extensions
                    pixelBlock.Position.Y <= pictureHeight - blockSize;
         }
 
+        /// <summary>
+        /// Calculates if given block(calculated from point) is inside search window(according to given center block) and if it is inside image.
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="pixelBlockPoint"></param>
+        /// <param name="parametar"></param>
+        /// <param name="blockSize"></param>
+        /// <param name="pictureWidth"></param>
+        /// <param name="pictureHeight"></param>
+        /// <returns></returns>
         public static bool IsInSearchWindow(this PixelBlock center, Point pixelBlockPoint, int parametar, int blockSize, int pictureWidth, int pictureHeight)
         {
             return pixelBlockPoint.X >= 0 &&

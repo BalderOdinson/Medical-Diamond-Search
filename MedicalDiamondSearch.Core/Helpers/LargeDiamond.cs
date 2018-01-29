@@ -7,6 +7,9 @@ using MedicalDiamondSearch.Core.Settings;
 
 namespace MedicalDiamondSearch.Core.Helpers
 {
+    /// <summary>
+    /// Represents large diamond shape(manhattan distance of two from center)
+    /// </summary>
     public class LargeDiamond : Diamond
     {
         public LargeDiamond(PixelBlock referentBlock, PixelBlock centerBlock, Image image) : base(referentBlock, centerBlock)
@@ -16,6 +19,7 @@ namespace MedicalDiamondSearch.Core.Helpers
             {
                 for (var j = -2; j < 3; j++)
                 {
+                    //Checks if distances is two and if block is inside search window.
                     if (Math.Abs(i) + Math.Abs(j) != 2) continue;
                     var point = new Point(CenterBlock.Position.X + i * MedicalDiamondSearchSettings.BlockSize, CenterBlock.Position.Y + j * MedicalDiamondSearchSettings.BlockSize);
                     if (referentBlock.IsInSearchWindow(point, MedicalDiamondSearchSettings.SearchParameterP,
