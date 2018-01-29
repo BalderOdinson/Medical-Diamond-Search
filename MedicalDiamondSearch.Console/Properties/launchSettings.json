@@ -2,7 +2,7 @@
   "profiles": {
     "MedicalDiamondSearch.Console": {
       "commandName": "Project",
-      "commandLineArgs": "E:\\Downloads\\FER\\MDS\\first.png E:\\Downloads\\FER\\MDS\\second.png 4 7 0.1 16 "
+      "commandLineArgs": "E:\\Downloads\\FER\\MDS\\output\\output_000.jpg E:\\Downloads\\FER\\MDS\\output\\output_001.jpg 16 7 0.1 16 "
     }
   }
 }
